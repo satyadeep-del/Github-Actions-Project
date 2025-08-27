@@ -1,0 +1,28 @@
+name: sonarscan
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to build from'
+        required: true
+        default: 'develop'
+
+jobs:
+  Checkout:
+    runs-on: sdvtc-runner
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      
+      - name: Build Source
+        run: |
+          echo "Building in environment from branch ${{ inputs.branch }}"
+      
+      - name: Official SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v2.3.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}

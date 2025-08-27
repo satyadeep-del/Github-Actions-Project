@@ -1,8 +1,7 @@
-name: CICD Pipeline example
-
+name:  Automated deploy for Dev environment
 on:
-  push:
-    branches: [ "main" ]
+  pull_request_review:
+    types: [submitted]
 
 jobs:
   compile:
